@@ -1,70 +1,135 @@
 let playerScore = 0;
 let computerScore = 0;
+let computerChoice;
+let playerChoice;
 
-while (playerScore < 5 && computerScore < 5) {
-  let computerChoice = getComputerChoice();
+const resetBtn = document.createElement("button")
+resetBtn.addEventListener('click', resetGame);
 
-  // Player's turn
-  let playerSelection;
-  while (true) {
-    playerSelection = prompt("Choose either Rock, Paper, or Scissors!");
-    playerSelection = playerSelection.toUpperCase();
+const gameOverScreen = document.createElement("div")
 
-    if (playerSelection === "ROCK" || playerSelection === "PAPER" || playerSelection === "SCISSORS") {
-      break; // Break the loop if the selection is valid
-    } else {
-      alert("Invalid selection, try again!");
-    }
-  }
+const gameOver = document.createElement("div")
 
-  // Computer's turn
-  if (computerChoice === "ROCK") {
-    alert("The Computer selected ROCK!");
-  } else if (computerChoice === "PAPER") {
-    alert("The Computer selected PAPER!");
-  } else if (computerChoice === "SCISSORS") {
-    alert("The Computer selected SCISSORS!");
-  } else {
-    alert("RUN!");
-  }
+const interface = document.querySelector("#interface")
 
-  // Determine the winner of the round
-  if (computerChoice === playerSelection) {
-    alert("It is a draw!");
-  } else if (
-    (computerChoice === "ROCK" && playerSelection === "PAPER") ||
-    (computerChoice === "PAPER" && playerSelection === "SCISSORS") ||
-    (computerChoice === "SCISSORS" && playerSelection === "ROCK")
-  ) {
-    alert("You win this round!");
-    playerScore++;
-  } else {
-    alert("You lose this round!");
-    computerScore++;
-  }
+const logPlayerScore = document.querySelector("#score-player")
+logPlayerScore.textContent = playerScore
 
-  console.log("Score: Player " + playerScore + " - " + computerScore + " Computer");
+const logComputerScore = document.querySelector("#score-computer")
+logComputerScore.textContent = computerScore
+
+const rockBtn = document.querySelector("#rock");
+rockBtn.addEventListener('click', getPlayerChoice);
+rockBtn.addEventListener('click', getComputerChoice);
+
+const paperBtn = document.querySelector("#paper");
+paperBtn.addEventListener('click', getPlayerChoice);
+paperBtn.addEventListener('click', getComputerChoice);
+
+const scissorsBtn = document.querySelector("#scissors");
+scissorsBtn.addEventListener('click', getPlayerChoice);
+scissorsBtn.addEventListener('click', getComputerChoice);
+
+const logPlayerChoice = document.querySelector("#player-choice")
+
+function getPlayerChoice(event) {
+    playerChoice = event.target.id;
+    logPlayerChoice.textContent = "Player selected: " + playerChoice;
+    getWinner();
+    getGameOver();
+    return playerChoice;
 }
 
-// End game message
-if (playerScore === 5) {
-  alert("Congratulations! You win the game!");
-} else if (computerScore === 5) {
-  alert("Sorry! The computer wins the game!");
-}
+const logComputerChoice = document.querySelector("#computer-choice")
 
-// Function to get computer's choice
 function getComputerChoice() {
-  let ranNum = Math.floor(Math.random() * 3);
-  let computerChoice;
+    let ranNum = Math.floor(Math.random() * 3);
+    if (ranNum === 0) {
+        computerChoice = "rock";
+    } else if (ranNum === 1) {
+        computerChoice = "paper";
+    } else {
+        computerChoice = "scissors";
+    }
+    logComputerChoice.textContent = "Computer selected: " + computerChoice;
+    getWinner()
+    getGameOver()
+    return computerChoice;
+} 
 
-  if (ranNum === 0) {
-    computerChoice = "ROCK";
-  } else if (ranNum === 1) {
-    computerChoice = "PAPER";
-  } else {
-    computerChoice = "SCISSORS";
-  }
+const logOutcome = document.querySelector("#outcome")
 
-  return computerChoice;
+function getWinner() {
+    if (computerChoice === playerChoice) {
+        logOutcome.textContent = "It is a draw!";
+    } else if (
+        (computerChoice === "rock" && playerChoice === "paper") ||
+        (computerChoice === "paper" && playerChoice === "scissors") ||
+        (computerChoice === "scissors" && playerChoice === "rock")
+    ) {
+        logOutcome.textContent ="You win this round!";
+        playerScore++;
+        logPlayerScore.textContent = playerScore
+    } else {
+        logOutcome.textContent ="You lose this round!";
+        computerScore++;
+        logComputerScore.textContent = computerScore
+    }
+}
+
+function getGameOver () {
+    if (playerScore < 5 && computerScore >= 5 ) {
+        interface.parentNode.removeChild(interface);
+        document.body.appendChild(gameOverScreen)
+        gameOverScreen.appendChild(gameOver)
+        gameOverScreen.style.backgroundColor = "red"
+        gameOverScreen.style.display = "flex"
+        gameOverScreen.style.flexDirection = "column"
+        gameOverScreen.style.alignItems = "center"
+        gameOverScreen.style.justifyContent = "center"
+        gameOverScreen.style.gap = "50px"
+        gameOver.textContent = "YOU LOST!"
+        gameOverScreen.style.width = "100%"
+        gameOverScreen.style.height = "50%"
+        gameOver.style.fontSize = "100px"
+        gameOver.style.textAlign = "center"
+        gameOverScreen.appendChild(resetBtn)
+        resetBtn.style.marginBottom = "20px"
+        resetBtn.textContent = "PLAY AGAIN!"
+    } else if (computerScore < 5 && playerScore >= 5) {
+        interface.parentNode.removeChild(interface);
+        document.body.appendChild(gameOverScreen) 
+        gameOverScreen.appendChild(gameOver)
+        gameOverScreen.style.backgroundColor = "green"
+        gameOverScreen.style.display = "flex"
+        gameOverScreen.style.flexDirection = "column"
+        gameOverScreen.style.alignItems = "center"
+        gameOverScreen.style.justifyContent = "center"
+        gameOverScreen.style.gap = "50px"
+        gameOver.textContent = "YOU WON!"
+        gameOverScreen.style.width = "100%"
+        gameOverScreen.style.height = "50%"
+        gameOver.style.fontSize = "100px"
+        gameOver.style.textAlign = "center"
+        gameOverScreen.appendChild(resetBtn)
+        resetBtn.style.marginBottom = "20px"
+        resetBtn.textContent = "PLAY AGAIN!"
+    }
+}
+
+function resetGame() {
+    playerScore = 0;
+    computerScore = 0;
+    computerChoice = null;
+    playerChoice = null;
+
+    logPlayerScore.textContent = playerScore;
+    logComputerScore.textContent = computerScore;
+    logPlayerChoice.textContent = "";
+    logComputerChoice.textContent = "";
+    logOutcome.textContent = "";
+
+    document.body.removeChild(gameOverScreen);
+
+    document.body.appendChild(interface);
 }

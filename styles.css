@@ -17,12 +17,14 @@ body {
     display: flex;
     flex-direction: column;
     width: 500px;
-    height: 500px;
+    height: auto;
     border: solid 10px white;
     background-color: darkslateblue;
     border-radius: 8px;
     justify-content: flex-start;
     align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #rock,
@@ -55,11 +57,12 @@ body {
 #rps-btns-interface {
     display: flex;
     flex-direction: column;
-    height: 100px;
+    height: auto;
     width: 100%;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 20px;
+    margin-top: auto;
+    margin-bottom: 30px;
 }
 
 #rps-btns {
@@ -86,7 +89,10 @@ body {
 #outcome {
     border: solid 2px white;
     height: 30px;
-    width: 200px;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }
 
