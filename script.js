@@ -2,57 +2,81 @@ let playerScore = 0;
 let computerScore = 0;
 let computerChoice;
 let playerChoice;
+let gameInProgress = false;
 
-const resetBtn = document.createElement("button")
+const resetBtn = document.createElement("button");
 resetBtn.addEventListener('click', resetGame);
 
-const gameOverScreen = document.createElement("div")
+const gameOverScreen = document.createElement("div");
 
-const gameOver = document.createElement("div")
+const gameOver = document.createElement("div");
 
-const interface = document.querySelector("#interface")
+const interface = document.querySelector("#interface");
 
-const logPlayerScore = document.querySelector("#score-player")
-logPlayerScore.textContent = playerScore
+const logPlayerScore = document.querySelector("#score-player");
+logPlayerScore.textContent = playerScore;
 
-const logComputerScore = document.querySelector("#score-computer")
-logComputerScore.textContent = computerScore
+const logComputerScore = document.querySelector("#score-computer");
+logComputerScore.textContent = computerScore;
 
 const rockBtn = document.querySelector("#rock");
-rockBtn.addEventListener('click', () => getPlayerChoice("rock"));
+rockBtn.addEventListener('click', () => {
+    if (!gameInProgress) {
+        getPlayerChoice("rock");
+    }
+});
 
 const paperBtn = document.querySelector("#paper");
-paperBtn.addEventListener('click', () => getPlayerChoice("paper"));
+paperBtn.addEventListener('click', () => {
+    if (!gameInProgress) {
+        getPlayerChoice("paper");
+    }
+});
 
 const scissorsBtn = document.querySelector("#scissors");
-scissorsBtn.addEventListener('click', () => getPlayerChoice("scissors"));
+scissorsBtn.addEventListener('click', () => {
+    if (!gameInProgress) {
+        getPlayerChoice("scissors");
+    }
+});
 
-const logPlayerChoice = document.querySelector("#player-choice")
+const logPlayerChoice = document.querySelector("#player-choice");
 
 function getPlayerChoice(choice) {
+    if (gameInProgress) {
+        return;
+    }
+
     playerChoice = choice;
     logPlayerChoice.textContent = "Player selected: " + playerChoice;
-    getComputerChoice();
-}
+    gameInProgress = true;
 
-const logComputerChoice = document.querySelector("#computer-choice")
-
-function getComputerChoice() {
-    let ranNum = Math.floor(Math.random() * 3);
-    if (ranNum === 0) {
-        computerChoice = "rock";
-    } else if (ranNum === 1) {
-        computerChoice = "paper";
-    } else {
-        computerChoice = "scissors";
-    }
-    logComputerChoice.textContent = "Computer selected: " + computerChoice;
-
-    setTimeout(() => {
+    getComputerChoice().then(() => {
         getWinner();
         getGameOver();
-    }, 1000);
-} 
+        gameInProgress = false;
+    });
+}
+
+const logComputerChoice = document.querySelector("#computer-choice");
+
+function getComputerChoice() {
+    return new Promise(resolve => {
+        let ranNum = Math.floor(Math.random() * 3);
+        if (ranNum === 0) {
+            computerChoice = "rock";
+        } else if (ranNum === 1) {
+            computerChoice = "paper";
+        } else {
+            computerChoice = "scissors";
+        }
+        logComputerChoice.textContent = "Computer selected: " + computerChoice;
+
+        setTimeout(() => {
+            resolve();
+        }, 500);
+    });
+}
 
 const logOutcome = document.querySelector("#outcome")
 
@@ -103,12 +127,14 @@ function resetGame() {
     playerScore = 0;
     computerScore = 0;
     playerChoice = null;
+    gameInProgress = false
 
     logPlayerScore.textContent = playerScore;
     logComputerScore.textContent = computerScore;
     logPlayerChoice.textContent = "";
     logComputerChoice.textContent = "";
     logOutcome.textContent = "";
+    logOutcome.style.backgroundColor = "";
 
     document.body.removeChild(gameOverScreen);
 
