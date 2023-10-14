@@ -1,11 +1,35 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock-Paper-Scissors</title>
     <script src="./script.js" defer></script>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+  <div id="interface">
+    <div id="score">
+      <div id="score-player"></div>
+      <div id="separator">:</div>
+      <div id="score-computer"></div>
+    </div>
+    <div id="choices">
+      <div id="player-choice"></div>
+      <div id="computer-choice" ></div>
+      <div id="outcome"></div>
+    </div>
+    <div id="rps-btns-interface">
+      <p>SELECT YOUR WEAPON!</p>
+      <div id="rps-btns">
+        <button id="rock">&#129704;</button>
+        <button id="paper">&#129531;</button>
+        <button id="scissors">&#9986;</button>
+      </div>
+    </div>
+    <div id="reset-btn">
+      <button id="reset">Reset</button>
+    </div>
+  </div>
 </body>
 </html>
