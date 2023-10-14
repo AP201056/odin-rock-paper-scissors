@@ -4,6 +4,8 @@ let computerChoice;
 let playerChoice;
 let gameInProgress = false;
 
+const footer = document.querySelector("#footer");
+
 const resetBtn = document.createElement("button");
 resetBtn.addEventListener('click', resetGame);
 
@@ -41,6 +43,7 @@ scissorsBtn.addEventListener('click', () => {
 });
 
 const logPlayerChoice = document.querySelector("#player-choice");
+logPlayerChoice.textContent = "Select your weapon!";
 
 function getPlayerChoice(choice) {
     if (gameInProgress) {
@@ -103,6 +106,15 @@ function getWinner() {
 
 function getGameOver() {
     if (playerScore >= 5 || computerScore >= 5) {
+        const container = document.createElement("div");
+        container.id = "container";
+        
+        container.appendChild(interface);
+        document.body.appendChild(container);
+
+        container.appendChild(gameOverScreen);
+        gameOverScreen.appendChild(gameOver);
+
         interface.parentNode.removeChild(interface);
         document.body.appendChild(gameOverScreen)
         gameOverScreen.appendChild(gameOver)
@@ -115,11 +127,19 @@ function getGameOver() {
         gameOver.textContent = playerScore >= 5 ? "YOU WON!" : "YOU LOST!";
         gameOverScreen.style.width = "100%"
         gameOverScreen.style.height = "50%"
+        gameOverScreen.style.padding = "20px"
         gameOver.style.fontSize = "100px"
         gameOver.style.textAlign = "center"
         gameOverScreen.appendChild(resetBtn)
         resetBtn.style.marginBottom = "20px"
         resetBtn.textContent = "PLAY AGAIN!"
+        resetBtn.classList.add("reset-btn");
+        const footer = document.querySelector("#footer");
+        if (footer) {
+            document.body.appendChild(footer);
+            footer.style.marginTop = "20px"
+        }
+        
     }
 }
 
@@ -131,7 +151,7 @@ function resetGame() {
 
     logPlayerScore.textContent = playerScore;
     logComputerScore.textContent = computerScore;
-    logPlayerChoice.textContent = "";
+    logPlayerChoice.textContent = "Select your weapon!";
     logComputerChoice.textContent = "";
     logOutcome.textContent = "";
     logOutcome.style.backgroundColor = "";
@@ -139,4 +159,6 @@ function resetGame() {
     document.body.removeChild(gameOverScreen);
 
     document.body.appendChild(interface);
+
+    document.body.appendChild(footer);
 }
