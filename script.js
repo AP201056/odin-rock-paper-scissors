@@ -19,100 +19,76 @@ const logComputerScore = document.querySelector("#score-computer")
 logComputerScore.textContent = computerScore
 
 const rockBtn = document.querySelector("#rock");
-rockBtn.addEventListener('click', getPlayerChoice);
-rockBtn.addEventListener('click', getComputerChoice);
+rockBtn.addEventListener('click', () => getPlayerChoice("rock"));
 
 const paperBtn = document.querySelector("#paper");
-paperBtn.addEventListener('click', getPlayerChoice);
-paperBtn.addEventListener('click', getComputerChoice);
+paperBtn.addEventListener('click', () => getPlayerChoice("paper"));
 
 const scissorsBtn = document.querySelector("#scissors");
-scissorsBtn.addEventListener('click', getPlayerChoice);
-scissorsBtn.addEventListener('click', getComputerChoice);
+scissorsBtn.addEventListener('click', () => getPlayerChoice("scissors"));
 
 const logPlayerChoice = document.querySelector("#player-choice")
 
-function getPlayerChoice(event) {
-    playerChoice = event.target.id;
+function getPlayerChoice(choice) {
+    playerChoice = choice;
     logPlayerChoice.textContent = "Player selected: " + playerChoice;
-
-    return new Promise(resolve => {
-        getComputerChoice().then(() => {
-            getWinner();
-            getGameOver();
-            resolve();
-        });
-    });
+    getComputerChoice();
 }
 
 const logComputerChoice = document.querySelector("#computer-choice")
 
 function getComputerChoice() {
-    return new Promise(resolve => {
-        let ranNum = Math.floor(Math.random() * 3);
-        if (ranNum === 0) {
-            computerChoice = "rock";
-        } else if (ranNum === 1) {
-            computerChoice = "paper";
-        } else {
-            computerChoice = "scissors";
-        }
-        logComputerChoice.textContent = "Computer selected: " + computerChoice;
-        
-        resolve();
-    });
-}
+    let ranNum = Math.floor(Math.random() * 3);
+    if (ranNum === 0) {
+        computerChoice = "rock";
+    } else if (ranNum === 1) {
+        computerChoice = "paper";
+    } else {
+        computerChoice = "scissors";
+    }
+    logComputerChoice.textContent = "Computer selected: " + computerChoice;
+
+    setTimeout(() => {
+        getWinner();
+        getGameOver();
+    }, 1000);
+} 
 
 const logOutcome = document.querySelector("#outcome")
 
 function getWinner() {
     if (computerChoice === playerChoice) {
         logOutcome.textContent = "It is a draw!";
+        logOutcome.style.backgroundColor = "blue";
     } else if (
-        (computerChoice === "rock" && playerChoice === "paper") ||
-        (computerChoice === "paper" && playerChoice === "scissors") ||
-        (computerChoice === "scissors" && playerChoice === "rock")
+        (computerChoice === "rock" && playerChoice === "scissors") ||
+        (computerChoice === "paper" && playerChoice === "rock") ||
+        (computerChoice === "scissors" && playerChoice === "paper")
     ) {
-        logOutcome.textContent ="You win this round!";
-        playerScore++;
-        logPlayerScore.textContent = playerScore
-    } else {
-        logOutcome.textContent ="You lose this round!";
+        logOutcome.textContent = "You lose this round!";
+        logOutcome.style.backgroundColor = "red";
         computerScore++;
-        logComputerScore.textContent = computerScore
+        logComputerScore.textContent = computerScore;
+    } else {
+        logOutcome.textContent = "You win this round!";
+        logOutcome.style.backgroundColor = "green";
+        playerScore++;
+        logPlayerScore.textContent = playerScore;
     }
 }
 
-function getGameOver () {
-    if (playerScore < 5 && computerScore >= 5 ) {
+function getGameOver() {
+    if (playerScore >= 5 || computerScore >= 5) {
         interface.parentNode.removeChild(interface);
         document.body.appendChild(gameOverScreen)
         gameOverScreen.appendChild(gameOver)
-        gameOverScreen.style.backgroundColor = "red"
+        gameOverScreen.style.backgroundColor = playerScore >= 5 ? "green" : "red";
         gameOverScreen.style.display = "flex"
         gameOverScreen.style.flexDirection = "column"
         gameOverScreen.style.alignItems = "center"
         gameOverScreen.style.justifyContent = "center"
         gameOverScreen.style.gap = "50px"
-        gameOver.textContent = "YOU LOST!"
-        gameOverScreen.style.width = "100%"
-        gameOverScreen.style.height = "50%"
-        gameOver.style.fontSize = "100px"
-        gameOver.style.textAlign = "center"
-        gameOverScreen.appendChild(resetBtn)
-        resetBtn.style.marginBottom = "20px"
-        resetBtn.textContent = "PLAY AGAIN!"
-    } else if (computerScore < 5 && playerScore >= 5) {
-        interface.parentNode.removeChild(interface);
-        document.body.appendChild(gameOverScreen) 
-        gameOverScreen.appendChild(gameOver)
-        gameOverScreen.style.backgroundColor = "green"
-        gameOverScreen.style.display = "flex"
-        gameOverScreen.style.flexDirection = "column"
-        gameOverScreen.style.alignItems = "center"
-        gameOverScreen.style.justifyContent = "center"
-        gameOverScreen.style.gap = "50px"
-        gameOver.textContent = "YOU WON!"
+        gameOver.textContent = playerScore >= 5 ? "YOU WON!" : "YOU LOST!";
         gameOverScreen.style.width = "100%"
         gameOverScreen.style.height = "50%"
         gameOver.style.fontSize = "100px"
@@ -126,7 +102,6 @@ function getGameOver () {
 function resetGame() {
     playerScore = 0;
     computerScore = 0;
-    computerChoice = null;
     playerChoice = null;
 
     logPlayerScore.textContent = playerScore;
