@@ -35,27 +35,33 @@ const logPlayerChoice = document.querySelector("#player-choice")
 function getPlayerChoice(event) {
     playerChoice = event.target.id;
     logPlayerChoice.textContent = "Player selected: " + playerChoice;
-    getWinner();
-    getGameOver();
-    return playerChoice;
+
+    return new Promise(resolve => {
+        getComputerChoice().then(() => {
+            getWinner();
+            getGameOver();
+            resolve();
+        });
+    });
 }
 
 const logComputerChoice = document.querySelector("#computer-choice")
 
 function getComputerChoice() {
-    let ranNum = Math.floor(Math.random() * 3);
-    if (ranNum === 0) {
-        computerChoice = "rock";
-    } else if (ranNum === 1) {
-        computerChoice = "paper";
-    } else {
-        computerChoice = "scissors";
-    }
-    logComputerChoice.textContent = "Computer selected: " + computerChoice;
-    getWinner()
-    getGameOver()
-    return computerChoice;
-} 
+    return new Promise(resolve => {
+        let ranNum = Math.floor(Math.random() * 3);
+        if (ranNum === 0) {
+            computerChoice = "rock";
+        } else if (ranNum === 1) {
+            computerChoice = "paper";
+        } else {
+            computerChoice = "scissors";
+        }
+        logComputerChoice.textContent = "Computer selected: " + computerChoice;
+        
+        resolve();
+    });
+}
 
 const logOutcome = document.querySelector("#outcome")
 
