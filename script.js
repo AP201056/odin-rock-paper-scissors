@@ -128,7 +128,7 @@ function getGameOver() {
         gameOverScreen.style.width = "100%"
         gameOverScreen.style.height = "50%"
         gameOverScreen.style.padding = "20px"
-        gameOver.style.fontSize = "100px"
+        gameOver.style.fontSize = "70px"
         gameOver.style.textAlign = "center"
         gameOverScreen.appendChild(resetBtn)
         resetBtn.style.marginBottom = "20px"
@@ -162,3 +162,5 @@ function resetGame() {
 
     document.body.appendChild(footer);
 }
+
+gameOver.id = "game-over";
