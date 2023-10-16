@@ -119,25 +119,28 @@ function getGameOver() {
         document.body.appendChild(gameOverScreen)
         gameOverScreen.appendChild(gameOver)
         gameOverScreen.style.backgroundColor = playerScore >= 5 ? "green" : "red";
-        gameOverScreen.style.display = "flex"
-        gameOverScreen.style.flexDirection = "column"
-        gameOverScreen.style.alignItems = "center"
-        gameOverScreen.style.justifyContent = "center"
-        gameOverScreen.style.gap = "50px"
+        gameOverScreen.style.display = "flex";
+        gameOverScreen.style.flexDirection = "column";
+        gameOverScreen.style.alignItems = "center";
+        gameOverScreen.style.justifyContent = "center";
+        gameOverScreen.style.gap = "50px";
+        gameOverScreen.style.borderTop = "solid 5px white";
+        gameOverScreen.style.borderBottom = "solid 5px white";
+        gameOverScreen.style.boxShadow = "0 0 20px #ccc";
         gameOver.textContent = playerScore >= 5 ? "YOU WON!" : "YOU LOST!";
-        gameOverScreen.style.width = "100%"
-        gameOverScreen.style.height = "50%"
-        gameOverScreen.style.padding = "20px"
-        gameOver.style.fontSize = "70px"
-        gameOver.style.textAlign = "center"
-        gameOverScreen.appendChild(resetBtn)
-        resetBtn.style.marginBottom = "20px"
-        resetBtn.textContent = "PLAY AGAIN!"
+        gameOverScreen.style.width = "100%";
+        gameOverScreen.style.height = "50%";
+        gameOverScreen.style.padding = "20px";
+        gameOver.style.fontSize = "70px";
+        gameOver.style.textAlign = "center";
+        gameOverScreen.appendChild(resetBtn);
+        resetBtn.style.marginBottom = "20px";
+        resetBtn.textContent = "PLAY AGAIN!";
         resetBtn.classList.add("reset-btn");
         const footer = document.querySelector("#footer");
         if (footer) {
             document.body.appendChild(footer);
-            footer.style.marginTop = "20px"
+            footer.style.marginTop = "20px";
         }
         
     }
