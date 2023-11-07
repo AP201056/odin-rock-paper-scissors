@@ -1,5 +1,8 @@
 A simple game of rock-paper-scissors made with JavaScript for The Odin Project
 
+Live preview:
+https://peteralexa.github.io/top-rock-paper-scissors/
+
 Font used:
 Digital-7 Font Family
 Made by Avatar: Style-7 Style-7 
